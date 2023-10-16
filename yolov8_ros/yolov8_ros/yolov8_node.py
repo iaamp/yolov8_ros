@@ -178,11 +178,26 @@ class Yolov8Node(Node):
         if self.enable:
 
             # convert image + predict
-            cv_image = self.cv_bridge.imgmsg_to_cv2(msg)
+            # cv_image = self.cv_bridge.imgmsg_to_cv2(msg)
+            cv_image = self.cv_bridge.imgmsg_to_cv2(msg, "bgr8")
+
+            # height, width, channels = cv_image.shape
+            # depth = cv_image.dtype
+            # size = cv_image.size  # total number of pixels
+            # self.get_logger().info(f"ROS2 Image Encoding: {msg.encoding}")
+            # self.get_logger().info(f"Width: {width}")
+            # self.get_logger().info(f"Height: {height}")
+            # self.get_logger().info(f"Channels: {channels}")
+            # self.get_logger().info(f"Depth (data type): {depth}")
+            # self.get_logger().info(f"Total number of pixels: {size}")
+
+            # return
+
             results = self.yolo.predict(
                 source=cv_image,
                 verbose=False,
                 stream=False,
+                imgsz=1088,
                 conf=self.threshold,
                 device=self.device
             )
