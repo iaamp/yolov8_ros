@@ -199,7 +199,7 @@ class DebugNode(Node):
 
     def detections_cb(self, img_msg: Image, detection_msg: DetectionArray) -> None:
 
-        self.get_logger().info("debug node: detections_cb")
+        # self.get_logger().info("debug node: detections_cb")
 
         cv_image = self.cv_bridge.imgmsg_to_cv2(img_msg)
         # cv_image = self.cv_bridge.imgmsg_to_cv2(img_msg, "bgr8")
@@ -242,7 +242,7 @@ class DebugNode(Node):
         # publish dbg image
         self._dbg_pub.publish(self.cv_bridge.cv2_to_imgmsg(cv_image,
                                                            encoding=img_msg.encoding))
-        self.get_logger().info("debug img published")
+        # self.get_logger().info("debug img published")
 
         self._bb_markers_pub.publish(bb_marker_array)
         self._kp_markers_pub.publish(kp_marker_array)
