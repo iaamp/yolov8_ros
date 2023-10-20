@@ -57,7 +57,8 @@ class DebugNode(Node):
         image_sub = message_filters.Subscriber(
             self, Image, "image_raw", qos_profile=qos_profile_sensor_data)
         detections_sub = message_filters.Subscriber(
-            self, DetectionArray, "detections", qos_profile=10)
+            # self, DetectionArray, "detections", qos_profile=10)
+            self, DetectionArray, "tracking", qos_profile=10)
 
         self._synchronizer = message_filters.ApproximateTimeSynchronizer(
             (image_sub, detections_sub), 10, 0.5)
@@ -80,11 +81,14 @@ class DebugNode(Node):
         cv2.rectangle(cv_image, min_pt, max_pt, color, 2)
 
         # write text
-        label = "{} ({}) ({:.3f})".format(label, str(track_id), score)
+        # label = "{} ({}) ({:.3f})".format(label, str(track_id), score)
+        label = "{} ({:.3f})".format(str(track_id), score)
         pos = (min_pt[0] + 5, min_pt[1] + 25)
         font = cv2.FONT_HERSHEY_SIMPLEX
+        text_color = (155, 250, 157)
         cv2.putText(cv_image, label, pos, font,
-                    1, color, 1, cv2.LINE_AA)
+                    # 1, color, 1, cv2.LINE_AA)
+                    1, text_color, 1, cv2.LINE_AA)
 
         return cv_image
 
@@ -220,9 +224,16 @@ class DebugNode(Node):
                 self._class_to_color[label] = (r, g, b)
 
             color = self._class_to_color[label]
+            # color = (115, 13, 91)
+            color = (25, 17, 184)
+            color_text = (252, 140, 20)
 
-            cv_image = self.draw_box(cv_image, detection, color)
+            # cv_image = self.draw_box(cv_image, detection, color)
+            # cv_image = self.draw_mask(cv_image, detection, color)
+            # cv_image = self.draw_keypoints(cv_image, detection)
+
             cv_image = self.draw_mask(cv_image, detection, color)
+            cv_image = self.draw_box(cv_image, detection, color)
             cv_image = self.draw_keypoints(cv_image, detection)
 
             if detection.bbox3d.frame_id:
