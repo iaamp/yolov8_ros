@@ -110,8 +110,8 @@ def generate_launch_description():
     ld.add_action(input_image_topic_cmd)
     ld.add_action(namespace_cmd)
 
-    ld.add_action(detector_node_cmd)
-    ld.add_action(tracking_node_cmd)
+    # ld.add_action(detector_node_cmd)
+    # ld.add_action(tracking_node_cmd)
     ld.add_action(debug_node_cmd)
 
     return ld
